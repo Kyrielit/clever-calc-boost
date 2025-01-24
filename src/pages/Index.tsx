@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { Calculator, Clock, Percent, Square, Power, Brain } from "lucide-react";
+import { Calculator, Moon, Sun, Calculator as CalculatorIcon, Brain } from "lucide-react";
 import { cn } from '@/lib/utils';
 import { calculateResult } from '@/utils/calculator';
+import { Switch } from "@/components/ui/switch";
+import { Toggle } from "@/components/ui/toggle";
 
 const Index = () => {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [memory, setMemory] = useState<number>(0);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isScientific, setIsScientific] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   const handleCalculate = () => {
     try {
@@ -66,22 +78,64 @@ const Index = () => {
     }
   };
 
+  const scientificOperations = [
+    'sin', 'cos', 'tan', 'log', 'ln', '√', 'π', 'e'
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 p-8">
+    <div className={cn(
+      "min-h-screen transition-colors duration-300",
+      isDarkMode ? "bg-gradient-to-br from-gray-900 to-gray-800" : "bg-gradient-to-br from-indigo-50 to-purple-50",
+      "p-8"
+    )}>
       <div className="max-w-2xl mx-auto space-y-8">
-        <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-indigo-900">Advanced Calculator</h1>
-          <p className="text-slate-600">Perform advanced calculations including math, time, and memory operations</p>
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <Switch
+              checked={isDarkMode}
+              onCheckedChange={setIsDarkMode}
+              className="data-[state=checked]:bg-indigo-600"
+            />
+            {isDarkMode ? <Moon className="h-5 w-5 text-gray-200" /> : <Sun className="h-5 w-5 text-yellow-500" />}
+          </div>
+          <Toggle
+            pressed={isScientific}
+            onPressedChange={setIsScientific}
+            className="gap-2"
+          >
+            {isScientific ? <Brain className="h-5 w-5" /> : <CalculatorIcon className="h-5 w-5" />}
+            {isScientific ? 'Scientific' : 'Advanced'}
+          </Toggle>
         </div>
 
-        <div className="bg-white rounded-xl shadow-lg p-6 space-y-6">
+        <div className="text-center space-y-2">
+          <h1 className={cn(
+            "text-4xl font-bold",
+            isDarkMode ? "text-white" : "text-indigo-900"
+          )}>
+            {isScientific ? 'Scientific Calculator' : 'Advanced Calculator'}
+          </h1>
+          <p className={cn(
+            isDarkMode ? "text-gray-300" : "text-slate-600"
+          )}>
+            Perform {isScientific ? 'scientific' : 'advanced'} calculations including math, time, and memory operations
+          </p>
+        </div>
+
+        <div className={cn(
+          "rounded-xl shadow-lg p-6 space-y-6",
+          isDarkMode ? "bg-gray-800" : "bg-white"
+        )}>
           <div className="flex gap-4">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Enter calculation (e.g., 'sqrt(16)', '2^3', '20% of 100')"
-              className="text-lg"
+              placeholder={isScientific ? "Enter scientific calculation (e.g., 'sin(30)', 'log(100)')" : "Enter calculation"}
+              className={cn(
+                "text-lg",
+                isDarkMode ? "bg-gray-700 text-white border-gray-600" : ""
+              )}
             />
             <Button onClick={handleCalculate} className="bg-indigo-600 hover:bg-indigo-700">
               Calculate
@@ -95,40 +149,94 @@ const Index = () => {
             <Button onClick={() => handleMemoryOperation('M-')} variant="outline" size="sm">M-</Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-indigo-50 p-4 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <Calculator className="text-indigo-600" />
-                <h3 className="font-semibold text-indigo-900">Basic Math</h3>
-              </div>
-              <p className="text-sm text-slate-600">Use +, -, ×, /, (), ^, sqrt()</p>
+          {isScientific && (
+            <div className="grid grid-cols-4 gap-2">
+              {scientificOperations.map((op) => (
+                <Button
+                  key={op}
+                  variant="outline"
+                  onClick={() => setInput(prev => prev + op)}
+                  className={cn(
+                    isDarkMode ? "border-gray-600 text-gray-200" : ""
+                  )}
+                >
+                  {op}
+                </Button>
+              ))}
             </div>
-            <div className="bg-purple-50 p-4 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <Clock className="text-purple-600" />
-                <h3 className="font-semibold text-purple-900">Time Calc</h3>
+          )}
+
+          {!isScientific && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className={cn(
+                "p-4 rounded-lg",
+                isDarkMode ? "bg-gray-700" : "bg-indigo-50"
+              )}>
+                <div className="flex items-center gap-2 mb-2">
+                  <Calculator className={isDarkMode ? "text-indigo-400" : "text-indigo-600"} />
+                  <h3 className={cn(
+                    "font-semibold",
+                    isDarkMode ? "text-gray-200" : "text-indigo-900"
+                  )}>Basic Math</h3>
+                </div>
+                <p className={cn(
+                  "text-sm",
+                  isDarkMode ? "text-gray-400" : "text-slate-600"
+                )}>Use +, -, ×, /, (), ^, sqrt()</p>
               </div>
-              <p className="text-sm text-slate-600">Format: HH:MM + HH:MM</p>
-            </div>
-            <div className="bg-pink-50 p-4 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <Percent className="text-pink-600" />
-                <h3 className="font-semibold text-pink-900">Percentages</h3>
+              <div className={cn(
+                "p-4 rounded-lg",
+                isDarkMode ? "bg-gray-700" : "bg-purple-50"
+              )}>
+                <div className="flex items-center gap-2 mb-2">
+                  <Calculator className={isDarkMode ? "text-purple-400" : "text-purple-600"} />
+                  <h3 className={cn(
+                    "font-semibold",
+                    isDarkMode ? "text-gray-200" : "text-purple-900"
+                  )}>Time Calc</h3>
+                </div>
+                <p className={cn(
+                  "text-sm",
+                  isDarkMode ? "text-gray-400" : "text-slate-600"
+                )}>Format: HH:MM + HH:MM</p>
               </div>
-              <p className="text-sm text-slate-600">Format: X% of Y</p>
+              <div className={cn(
+                "p-4 rounded-lg",
+                isDarkMode ? "bg-gray-700" : "bg-pink-50"
+              )}>
+                <div className="flex items-center gap-2 mb-2">
+                  <Calculator className={isDarkMode ? "text-pink-400" : "text-pink-600"} />
+                  <h3 className={cn(
+                    "font-semibold",
+                    isDarkMode ? "text-gray-200" : "text-pink-900"
+                  )}>Percentages</h3>
+                </div>
+                <p className={cn(
+                  "text-sm",
+                  isDarkMode ? "text-gray-400" : "text-slate-600"
+                )}>Format: X% of Y</p>
+              </div>
             </div>
-          </div>
+          )}
 
           {history.length > 0 && (
-            <div className="border-t pt-4">
-              <h3 className="font-semibold text-slate-700 mb-2">History</h3>
+            <div className={cn(
+              "border-t pt-4",
+              isDarkMode ? "border-gray-700" : ""
+            )}>
+              <h3 className={cn(
+                "font-semibold mb-2",
+                isDarkMode ? "text-gray-200" : "text-slate-700"
+              )}>History</h3>
               <div className="space-y-2">
                 {history.map((item, index) => (
                   <div
                     key={index}
                     className={cn(
                       "p-2 rounded",
-                      index % 2 === 0 ? "bg-slate-50" : "bg-white"
+                      isDarkMode
+                        ? index % 2 === 0 ? "bg-gray-700" : "bg-gray-800"
+                        : index % 2 === 0 ? "bg-slate-50" : "bg-white"
                     )}
                   >
                     {item}
