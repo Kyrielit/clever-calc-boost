@@ -6,10 +6,27 @@ type TimeValue = {
 export function calculateResult(input: string): string {
   input = input.trim().toLowerCase();
 
+  // Handle square root
+  if (input.includes('sqrt')) {
+    const number = parseFloat(input.replace('sqrt', ''));
+    if (isNaN(number)) {
+      throw new Error('Invalid square root format');
+    }
+    return Math.sqrt(number).toString();
+  }
+
+  // Handle power/exponent
+  if (input.includes('^')) {
+    const [base, exponent] = input.split('^').map(s => parseFloat(s.trim()));
+    if (isNaN(base) || isNaN(exponent)) {
+      throw new Error('Invalid power calculation format');
+    }
+    return Math.pow(base, exponent).toString();
+  }
+
   // Check for percentage calculations
   if (input.includes('%')) {
     if (input.includes('of')) {
-      // Calculate percentage of a number
       const [percentStr, rest] = input.split('of').map(s => s.trim());
       const percent = parseFloat(percentStr);
       const number = parseFloat(rest);
@@ -18,7 +35,6 @@ export function calculateResult(input: string): string {
       }
       return ((percent / 100) * number).toString();
     } else if (input.includes('is what percent of')) {
-      // Calculate what percent one number is of another
       const [numStr, totalStr] = input.split('is what percent of').map(s => s.trim());
       const num = parseFloat(numStr);
       const total = parseFloat(totalStr);
@@ -34,7 +50,7 @@ export function calculateResult(input: string): string {
     return calculateTimeOperation(input);
   }
 
-  // Basic arithmetic
+  // Basic arithmetic with parentheses support
   return calculateBasicMath(input);
 }
 
@@ -85,11 +101,11 @@ function calculateTimeOperation(input: string): string {
 }
 
 function calculateBasicMath(input: string): string {
-  // Replace × with * for evaluation
+  // Replace × with * and handle parentheses
   input = input.replace(/×/g, '*');
   
   // Validate input
-  if (!/^[\d\s+\-*/.()]+$/.test(input)) {
+  if (!/^[\d\s+\-*/.()^√]+$/.test(input)) {
     throw new Error('Invalid characters in expression');
   }
 
