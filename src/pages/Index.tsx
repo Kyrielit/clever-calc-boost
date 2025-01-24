@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { Calculator, Calculator as CalculatorIcon, Brain } from "lucide-react";
+import { Calculator, Brain, Timer, Gamepad } from "lucide-react";
 import { cn } from '@/lib/utils';
 import { calculateResult } from '@/utils/calculator';
 import { Toggle } from "@/components/ui/toggle";
 import CalculatorTheme from '@/components/CalculatorTheme';
 import CalculatorGame from '@/components/CalculatorGame';
+import NumberMemory from '@/components/games/NumberMemory';
+import SpeedMath from '@/components/games/SpeedMath';
 
 const Index = () => {
   const [input, setInput] = useState('');
@@ -80,6 +82,8 @@ const Index = () => {
     }
   };
 
+  const [activeGame, setActiveGame] = useState<'none' | 'math-challenge' | 'number-memory' | 'speed-math'>('none');
+
   return (
     <div className={cn(
       "min-h-screen transition-colors duration-300",
@@ -97,17 +101,55 @@ const Index = () => {
               onPressedChange={setIsScientific}
               className="gap-2 bg-opacity-80 backdrop-blur-sm"
             >
-              {isScientific ? <Brain className="h-5 w-5" /> : <CalculatorIcon className="h-5 w-5" />}
+              {isScientific ? <Brain className="h-5 w-5" /> : <Calculator className="h-5 w-5" />}
               {isScientific ? 'Scientific' : 'Advanced'}
             </Toggle>
-            <Toggle
-              pressed={showGame}
-              onPressedChange={setShowGame}
-              className="gap-2 bg-opacity-80 backdrop-blur-sm"
-            >
-              <Brain className="h-5 w-5" />
-              Math Game
-            </Toggle>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                className={cn(
+                  "gap-2 bg-opacity-80 backdrop-blur-sm",
+                  activeGame === 'none' && "bg-primary text-primary-foreground"
+                )}
+                onClick={() => setActiveGame('none')}
+              >
+                <Calculator className="h-5 w-5" />
+                Calculator
+              </Button>
+              <Button
+                variant="outline"
+                className={cn(
+                  "gap-2 bg-opacity-80 backdrop-blur-sm",
+                  activeGame === 'math-challenge' && "bg-primary text-primary-foreground"
+                )}
+                onClick={() => setActiveGame('math-challenge')}
+              >
+                <Brain className="h-5 w-5" />
+                Math Challenge
+              </Button>
+              <Button
+                variant="outline"
+                className={cn(
+                  "gap-2 bg-opacity-80 backdrop-blur-sm",
+                  activeGame === 'number-memory' && "bg-primary text-primary-foreground"
+                )}
+                onClick={() => setActiveGame('number-memory')}
+              >
+                <Gamepad className="h-5 w-5" />
+                Number Memory
+              </Button>
+              <Button
+                variant="outline"
+                className={cn(
+                  "gap-2 bg-opacity-80 backdrop-blur-sm",
+                  activeGame === 'speed-math' && "bg-primary text-primary-foreground"
+                )}
+                onClick={() => setActiveGame('speed-math')}
+              >
+                <Timer className="h-5 w-5" />
+                Speed Math
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -118,28 +160,35 @@ const Index = () => {
               ? "bg-gradient-to-r from-purple-400 to-pink-300" 
               : "bg-gradient-to-r from-purple-600 to-indigo-600"
           )}>
-            {isScientific ? 'Scientific Calculator' : 'Advanced Calculator'}
+            {activeGame === 'none' 
+              ? (isScientific ? 'Scientific Calculator' : 'Advanced Calculator')
+              : activeGame === 'math-challenge'
+              ? 'Math Challenge'
+              : activeGame === 'number-memory'
+              ? 'Number Memory'
+              : 'Speed Math'}
           </h1>
           <p className={cn(
             "text-lg",
             isDarkMode ? "text-gray-300" : "text-slate-600"
           )}>
-            {showGame 
-              ? "Challenge yourself with quick math problems!" 
-              : `Perform ${isScientific ? 'scientific' : 'advanced'} calculations including math, time, and memory operations`}
+            {activeGame === 'none'
+              ? `Perform ${isScientific ? 'scientific' : 'advanced'} calculations including math, time, and memory operations`
+              : activeGame === 'math-challenge'
+              ? "Challenge yourself with quick math problems!"
+              : activeGame === 'number-memory'
+              ? "Test your memory by remembering number sequences!"
+              : "Race against time to solve math problems!"}
           </p>
         </div>
 
-        {showGame ? (
-          <CalculatorGame />
-        ) : (
+        {activeGame === 'none' ? (
           <div className={cn(
             "rounded-xl shadow-lg p-6 space-y-6 backdrop-blur-sm",
             isDarkMode 
               ? "bg-gray-800/50 border border-gray-700" 
               : "bg-white/50 border border-gray-200"
           )}>
-            <div className="flex gap-4">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -305,6 +354,12 @@ const Index = () => {
               </div>
             )}
           </div>
+        ) : activeGame === 'math-challenge' ? (
+          <CalculatorGame />
+        ) : activeGame === 'number-memory' ? (
+          <NumberMemory />
+        ) : (
+          <SpeedMath />
         )}
       </div>
     </div>
