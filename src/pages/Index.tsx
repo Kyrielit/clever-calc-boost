@@ -7,6 +7,8 @@ import { calculateResult } from '@/utils/calculator';
 import CalculatorGame from '@/components/CalculatorGame';
 import NumberMemory from '@/components/games/NumberMemory';
 import SpeedMath from '@/components/games/SpeedMath';
+import MemoryGrid from '@/components/games/MemoryGrid';
+import MathSequence from '@/components/games/MathSequence';
 import CalculatorHeader from '@/components/calculator/CalculatorHeader';
 import CalculatorTitle from '@/components/calculator/CalculatorTitle';
 import ScientificButtons from '@/components/calculator/ScientificButtons';
@@ -20,7 +22,7 @@ const Index = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isScientific, setIsScientific] = useState(false);
   const { toast } = useToast();
-  const [activeGame, setActiveGame] = useState<'none' | 'math-challenge' | 'number-memory' | 'speed-math'>('none');
+  const [activeGame, setActiveGame] = useState<'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence'>('none');
 
   useEffect(() => {
     if (isDarkMode) {
@@ -110,7 +112,7 @@ const Index = () => {
 
         {activeGame === 'none' ? (
           <div className={cn(
-            "rounded-xl shadow-lg p-8 space-y-6 backdrop-blur-sm min-h-[500px]",
+            "rounded-xl shadow-lg p-8 space-y-6 backdrop-blur-sm",
             isDarkMode 
               ? "bg-gray-800/50 border border-gray-700" 
               : "bg-white/50 border border-gray-200"
@@ -125,7 +127,7 @@ const Index = () => {
                 isDarkMode ? "bg-gray-700 text-white border-gray-600" : ""
               )}
             />
-            <Button onClick={handleCalculate} className="bg-indigo-600 hover:bg-indigo-700 h-12 text-lg w-full">
+            <Button onClick={handleCalculate} className="w-full bg-indigo-600 hover:bg-indigo-700 h-12 text-lg">
               Calculate
             </Button>
 
@@ -148,8 +150,12 @@ const Index = () => {
           <CalculatorGame />
         ) : activeGame === 'number-memory' ? (
           <NumberMemory />
-        ) : (
+        ) : activeGame === 'speed-math' ? (
           <SpeedMath />
+        ) : activeGame === 'memory-grid' ? (
+          <MemoryGrid />
+        ) : (
+          <MathSequence />
         )}
       </div>
     </div>
