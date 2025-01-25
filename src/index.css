@@ -10,9 +10,9 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 24 96% 59%; /* Orange color for operator buttons */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 13% 91%; /* Light gray for number buttons */
+    --primary: 248 90% 66%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -23,19 +23,19 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-    --radius: 1rem;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 215 25% 27%; /* Dark mode background color */
+    --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-    --card: 217 25% 27%;
+    --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-    --popover: 217 25% 27%;
+    --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 24 96% 59%; /* Orange color for operator buttons */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 217 19% 27%; /* Dark gray for number buttons */
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
@@ -56,24 +56,4 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
-}
-
-.calculator-button {
-  @apply w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-medium transition-all duration-200;
-}
-
-.number-button {
-  @apply calculator-button bg-secondary hover:bg-secondary/80 text-foreground;
-}
-
-.operator-button {
-  @apply calculator-button bg-primary hover:bg-primary/80 text-white;
-}
-
-.display-text {
-  @apply text-4xl font-semibold mb-4;
-}
-
-.calculation-history {
-  @apply text-sm text-muted-foreground mb-2;
 }
