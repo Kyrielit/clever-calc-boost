@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { Calculator, Brain, Timer, Gamepad } from "lucide-react";
+import { Calculator, Brain } from "lucide-react";
 import { cn } from '@/lib/utils';
 import { calculateResult } from '@/utils/calculator';
 import { Toggle } from "@/components/ui/toggle";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import CalculatorTheme from '@/components/CalculatorTheme';
 import CalculatorGame from '@/components/CalculatorGame';
 import NumberMemory from '@/components/games/NumberMemory';
@@ -18,7 +24,6 @@ const Index = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isScientific, setIsScientific] = useState(false);
   const { toast } = useToast();
-  const [showGame, setShowGame] = useState(false);
   const [activeGame, setActiveGame] = useState<'none' | 'math-challenge' | 'number-memory' | 'speed-math'>('none');
 
   useEffect(() => {
@@ -290,39 +295,34 @@ const Index = () => {
                 <Calculator className="h-5 w-5" />
                 Calculator
               </Button>
-              <Button
-                variant="outline"
-                className={cn(
-                  "gap-2 bg-opacity-80 backdrop-blur-sm",
-                  activeGame === 'math-challenge' && "bg-primary text-primary-foreground"
-                )}
-                onClick={() => setActiveGame('math-challenge')}
-              >
-                <Brain className="h-5 w-5" />
-                Math Challenge
-              </Button>
-              <Button
-                variant="outline"
-                className={cn(
-                  "gap-2 bg-opacity-80 backdrop-blur-sm",
-                  activeGame === 'number-memory' && "bg-primary text-primary-foreground"
-                )}
-                onClick={() => setActiveGame('number-memory')}
-              >
-                <Gamepad className="h-5 w-5" />
-                Number Memory
-              </Button>
-              <Button
-                variant="outline"
-                className={cn(
-                  "gap-2 bg-opacity-80 backdrop-blur-sm",
-                  activeGame === 'speed-math' && "bg-primary text-primary-foreground"
-                )}
-                onClick={() => setActiveGame('speed-math')}
-              >
-                <Timer className="h-5 w-5" />
-                Speed Math
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "gap-2 bg-opacity-80 backdrop-blur-sm",
+                      activeGame !== 'none' && "bg-primary text-primary-foreground"
+                    )}
+                  >
+                    <span className="text-xl">🎮</span>
+                    Games
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => setActiveGame('math-challenge')}>
+                    <Brain className="h-4 w-4 mr-2" />
+                    Math Challenge
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveGame('number-memory')}>
+                    <span className="mr-2">🧠</span>
+                    Number Memory
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setActiveGame('speed-math')}>
+                    <span className="mr-2">⚡</span>
+                    Speed Math
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
