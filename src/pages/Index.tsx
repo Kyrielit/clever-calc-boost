@@ -89,27 +89,25 @@ const Index = () => {
   };
 
   const renderCalculator = () => (
-    <>
-      <div className={cn(
-        "rounded-xl shadow-lg p-6 space-y-6 backdrop-blur-sm",
-        isDarkMode 
-          ? "bg-gray-800/50 border border-gray-700" 
-          : "bg-white/50 border border-gray-200"
-      )}>
-        <Input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder={isScientific ? "Enter scientific calculation (e.g., 'sin(30)', 'log(100)')" : "Enter calculation"}
-          className={cn(
-            "text-lg",
-            isDarkMode ? "bg-gray-700 text-white border-gray-600" : ""
-          )}
-        />
-        <Button onClick={handleCalculate} className="bg-indigo-600 hover:bg-indigo-700">
-          Calculate
-        </Button>
-      </div>
+    <div className={cn(
+      "rounded-xl shadow-lg p-8 space-y-6 backdrop-blur-sm min-h-[500px]", // Increased padding and added min-height
+      isDarkMode 
+        ? "bg-gray-800/50 border border-gray-700" 
+        : "bg-white/50 border border-gray-200"
+    )}>
+      <Input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyPress={handleKeyPress}
+        placeholder={isScientific ? "Enter scientific calculation (e.g., 'sin(30)', 'log(100)')" : "Enter calculation"}
+        className={cn(
+          "text-lg h-12", // Increased input height
+          isDarkMode ? "bg-gray-700 text-white border-gray-600" : ""
+        )}
+      />
+      <Button onClick={handleCalculate} className="bg-indigo-600 hover:bg-indigo-700 h-12 text-lg w-full">
+        Calculate
+      </Button>
 
       <div className="flex gap-2 justify-center">
         <Button onClick={() => handleMemoryOperation('MC')} variant="outline" size="sm">MC</Button>
@@ -120,7 +118,7 @@ const Index = () => {
 
       {isScientific && (
         <>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-3 mt-6">
             {['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'log', 'ln', '√', 'π', 'e', '^', 'abs', 'fact', 'cbrt'].map((op) => (
               <Button
                 key={op}
@@ -128,7 +126,7 @@ const Index = () => {
                 onClick={() => setInput(prev => prev + op + (op !== 'π' && op !== 'e' ? '(' : ''))}
                 className={cn(
                   isDarkMode ? "border-gray-600 text-gray-200" : "",
-                  "h-12"
+                  "h-14 text-lg" // Increased button height
                 )}
               >
                 {op}
@@ -181,59 +179,6 @@ const Index = () => {
         </>
       )}
 
-      {!isScientific && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className={cn(
-            "p-4 rounded-lg",
-            isDarkMode ? "bg-gray-700" : "bg-indigo-50"
-          )}>
-            <div className="flex items-center gap-2 mb-2">
-              <Calculator className={isDarkMode ? "text-indigo-400" : "text-indigo-600"} />
-              <h3 className={cn(
-                "font-semibold",
-                isDarkMode ? "text-gray-200" : "text-indigo-900"
-              )}>Basic Math</h3>
-            </div>
-            <p className={cn(
-              "text-sm",
-              isDarkMode ? "text-gray-400" : "text-slate-600"
-            )}>Use +, -, ×, /, (), ^, sqrt()</p>
-          </div>
-          <div className={cn(
-            "p-4 rounded-lg",
-            isDarkMode ? "bg-gray-700" : "bg-purple-50"
-          )}>
-            <div className="flex items-center gap-2 mb-2">
-              <Calculator className={isDarkMode ? "text-purple-400" : "text-purple-600"} />
-              <h3 className={cn(
-                "font-semibold",
-                isDarkMode ? "text-gray-200" : "text-purple-900"
-              )}>Time Calc</h3>
-            </div>
-            <p className={cn(
-              "text-sm",
-              isDarkMode ? "text-gray-400" : "text-slate-600"
-            )}>Format: HH:MM + HH:MM</p>
-          </div>
-          <div className={cn(
-            "p-4 rounded-lg",
-            isDarkMode ? "bg-gray-700" : "bg-pink-50"
-          )}>
-            <div className="flex items-center gap-2 mb-2">
-              <Calculator className={isDarkMode ? "text-pink-400" : "text-pink-600"} />
-              <h3 className={cn(
-                "font-semibold",
-                isDarkMode ? "text-gray-200" : "text-pink-900"
-              )}>Percentages</h3>
-            </div>
-            <p className={cn(
-              "text-sm",
-              isDarkMode ? "text-gray-400" : "text-slate-600"
-            )}>Format: X% of Y</p>
-          </div>
-        </div>
-      )}
-
       {history.length > 0 && (
         <div className={cn(
           "border-t pt-4",
@@ -260,7 +205,7 @@ const Index = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 
   return (
@@ -271,14 +216,14 @@ const Index = () => {
         : "bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50",
       "p-8"
     )}>
-      <div className="max-w-2xl mx-auto space-y-8">
+      <div className="max-w-3xl mx-auto space-y-8"> {/* Increased max-width */}
         <div className="flex justify-between items-center">
           <CalculatorTheme isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
           <div className="flex gap-4">
             <Toggle
               pressed={isScientific}
               onPressedChange={setIsScientific}
-              className="gap-2 bg-opacity-80 backdrop-blur-sm"
+              className="gap-2 bg-opacity-80 backdrop-blur-sm h-12 px-4" // Increased height
             >
               {isScientific ? <Brain className="h-5 w-5" /> : <Calculator className="h-5 w-5" />}
               {isScientific ? 'Scientific' : 'Advanced'}
@@ -287,7 +232,7 @@ const Index = () => {
               <Button
                 variant="outline"
                 className={cn(
-                  "gap-2 bg-opacity-80 backdrop-blur-sm",
+                  "gap-2 bg-opacity-80 backdrop-blur-sm h-12 px-6", // Increased height and padding
                   activeGame === 'none' && "bg-primary text-primary-foreground"
                 )}
                 onClick={() => setActiveGame('none')}
@@ -300,7 +245,7 @@ const Index = () => {
                   <Button
                     variant="outline"
                     className={cn(
-                      "gap-2 bg-opacity-80 backdrop-blur-sm",
+                      "gap-2 bg-opacity-80 backdrop-blur-sm h-12 px-6", // Increased height and padding
                       activeGame !== 'none' && "bg-primary text-primary-foreground"
                     )}
                   >
@@ -308,17 +253,17 @@ const Index = () => {
                     Games
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setActiveGame('math-challenge')}>
-                    <Brain className="h-4 w-4 mr-2" />
+                <DropdownMenuContent className="w-56 p-2"> {/* Increased width and padding */}
+                  <DropdownMenuItem className="h-12 text-lg" onClick={() => setActiveGame('math-challenge')}>
+                    <Brain className="h-5 w-5 mr-2" />
                     Math Challenge
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setActiveGame('number-memory')}>
-                    <span className="mr-2">🧠</span>
+                  <DropdownMenuItem className="h-12 text-lg" onClick={() => setActiveGame('number-memory')}>
+                    <span className="mr-2 text-xl">🧠</span>
                     Number Memory
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setActiveGame('speed-math')}>
-                    <span className="mr-2">⚡</span>
+                  <DropdownMenuItem className="h-12 text-lg" onClick={() => setActiveGame('speed-math')}>
+                    <span className="mr-2 text-xl">⚡</span>
                     Speed Math
                   </DropdownMenuItem>
                 </DropdownMenuContent>
