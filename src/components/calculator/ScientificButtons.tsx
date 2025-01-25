@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 interface ScientificButtonsProps {
   isDarkMode: boolean;
-  setInput: (value: string) => void;
+  setInput: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const ScientificButtons = ({ isDarkMode, setInput }: ScientificButtonsProps) => {
