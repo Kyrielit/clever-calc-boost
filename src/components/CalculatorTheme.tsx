@@ -10,19 +10,19 @@ interface CalculatorThemeProps {
 
 const CalculatorTheme = ({ isDarkMode, setIsDarkMode }: CalculatorThemeProps) => {
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 p-2 rounded-lg bg-background/50 backdrop-blur-sm">
       <Switch
         checked={isDarkMode}
         onCheckedChange={setIsDarkMode}
         className={cn(
-          "data-[state=checked]:bg-indigo-600",
+          "data-[state=checked]:bg-primary",
           "transition-all duration-300"
         )}
       />
       {isDarkMode ? (
-        <Moon className="h-5 w-5 text-gray-200" />
+        <Moon className="h-5 w-5 text-primary animate-in fade-in-50" />
       ) : (
-        <Sun className="h-5 w-5 text-yellow-500" />
+        <Sun className="h-5 w-5 text-yellow-500 animate-in fade-in-50" />
       )}
     </div>
   );

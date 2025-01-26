@@ -4,14 +4,14 @@ import { cn } from '@/lib/utils';
 interface CalculatorTitleProps {
   isDarkMode: boolean;
   isScientific: boolean;
-  activeGame: 'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence';
+  activeGame: 'none' | 'math-challenge' | 'number-memory' | 'speed-math';
 }
 
 const CalculatorTitle = ({ isDarkMode, isScientific, activeGame }: CalculatorTitleProps) => {
   return (
-    <div className="text-center space-y-2">
+    <div className="text-center space-y-2 my-8">
       <h1 className={cn(
-        "text-4xl font-bold bg-clip-text text-transparent",
+        "text-4xl font-bold bg-clip-text text-transparent animate-in fade-in-50 duration-1000",
         isDarkMode 
           ? "bg-gradient-to-r from-purple-400 to-pink-300" 
           : "bg-gradient-to-r from-purple-600 to-indigo-600"
@@ -22,27 +22,19 @@ const CalculatorTitle = ({ isDarkMode, isScientific, activeGame }: CalculatorTit
           ? 'Math Challenge'
           : activeGame === 'number-memory'
           ? 'Number Memory'
-          : activeGame === 'speed-math'
-          ? 'Speed Math'
-          : activeGame === 'memory-grid'
-          ? 'Memory Grid'
-          : 'Math Sequence'}
+          : 'Speed Math'}
       </h1>
       <p className={cn(
-        "text-lg",
+        "text-lg animate-in fade-in-50 duration-1000 delay-200",
         isDarkMode ? "text-gray-300" : "text-slate-600"
       )}>
         {activeGame === 'none'
-          ? `Perform ${isScientific ? 'scientific' : 'advanced'} calculations including math, time, and memory operations`
+          ? `Perform ${isScientific ? 'scientific' : 'advanced'} calculations with ease`
           : activeGame === 'math-challenge'
           ? "Challenge yourself with quick math problems!"
           : activeGame === 'number-memory'
           ? "Test your memory by remembering number sequences!"
-          : activeGame === 'speed-math'
-          ? "Race against time to solve math problems!"
-          : activeGame === 'memory-grid'
-          ? "Remember and recreate patterns on a grid!"
-          : "Predict the next number in the sequence!"}
+          : "Race against time to solve math problems!"}
       </p>
     </div>
   );
