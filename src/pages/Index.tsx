@@ -141,7 +141,7 @@ const Index = () => {
             {isScientific ? (
               <ScientificButtons isDarkMode={isDarkMode} setInput={setInput} />
             ) : (
-              <BasicCalculator isDarkMode={isDarkMode} />
+              <BasicCalculator isDarkMode={isDarkMode} setInput={setInput} />
             )}
 
             <CalculatorHistory isDarkMode={isDarkMode} history={history} />

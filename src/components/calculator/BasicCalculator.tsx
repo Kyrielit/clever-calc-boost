@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils';
 
 interface BasicCalculatorProps {
   isDarkMode: boolean;
+  setInput: (value: string) => void;
 }
 
-const BasicCalculator = ({ isDarkMode, setInput }: BasicCalculatorProps & { setInput: (value: string) => void }) => {
+const BasicCalculator = ({ isDarkMode, setInput }: BasicCalculatorProps) => {
   const numbers = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.'];
   const operators = ['+', '-', '×', '÷', '=', 'C'];
   const alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -18,7 +19,7 @@ const BasicCalculator = ({ isDarkMode, setInput }: BasicCalculatorProps & { setI
     } else if (value === '=') {
       // Handle calculation
     } else {
-      setInput(prev => prev + value);
+      setInput((prev: string) => prev + value);
     }
   };
 
