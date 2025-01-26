@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 interface CalculatorTitleProps {
   isDarkMode: boolean;
   isScientific: boolean;
-  activeGame: 'none' | 'math-challenge' | 'number-memory' | 'speed-math';
+  activeGame: 'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence';
 }
 
 const CalculatorTitle = ({ isDarkMode, isScientific, activeGame }: CalculatorTitleProps) => {
@@ -22,7 +22,11 @@ const CalculatorTitle = ({ isDarkMode, isScientific, activeGame }: CalculatorTit
           ? 'Math Challenge'
           : activeGame === 'number-memory'
           ? 'Number Memory'
-          : 'Speed Math'}
+          : activeGame === 'speed-math'
+          ? 'Speed Math'
+          : activeGame === 'memory-grid'
+          ? 'Memory Grid'
+          : 'Math Sequence'}
       </h1>
       <p className={cn(
         "text-lg animate-in fade-in-50 duration-1000 delay-200",
@@ -34,7 +38,11 @@ const CalculatorTitle = ({ isDarkMode, isScientific, activeGame }: CalculatorTit
           ? "Challenge yourself with quick math problems!"
           : activeGame === 'number-memory'
           ? "Test your memory by remembering number sequences!"
-          : "Race against time to solve math problems!"}
+          : activeGame === 'speed-math'
+          ? "Race against time to solve math problems!"
+          : activeGame === 'memory-grid'
+          ? "Remember and recreate patterns on the grid!"
+          : "Predict the next number in the sequence!"}
       </p>
     </div>
   );

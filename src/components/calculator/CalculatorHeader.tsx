@@ -16,8 +16,8 @@ interface CalculatorHeaderProps {
   setIsDarkMode: (value: boolean) => void;
   isScientific: boolean;
   setIsScientific: (value: boolean) => void;
-  activeGame: 'none' | 'math-challenge' | 'number-memory' | 'speed-math';
-  setActiveGame: (game: 'none' | 'math-challenge' | 'number-memory' | 'speed-math') => void;
+  activeGame: 'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence';
+  setActiveGame: (game: 'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence') => void;
 }
 
 const CalculatorHeader = ({
@@ -77,6 +77,14 @@ const CalculatorHeader = ({
               <DropdownMenuItem className="h-12 text-lg cursor-pointer" onClick={() => setActiveGame('speed-math')}>
                 <span className="mr-2 text-xl">⚡</span>
                 Speed Math
+              </DropdownMenuItem>
+              <DropdownMenuItem className="h-12 text-lg cursor-pointer" onClick={() => setActiveGame('memory-grid')}>
+                <Grid className="h-5 w-5 mr-2" />
+                Memory Grid
+              </DropdownMenuItem>
+              <DropdownMenuItem className="h-12 text-lg cursor-pointer" onClick={() => setActiveGame('math-sequence')}>
+                <Puzzle className="h-5 w-5 mr-2" />
+                Math Sequence
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
