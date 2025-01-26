@@ -29,9 +29,9 @@ const CalculatorHeader = ({
   setActiveGame
 }: CalculatorHeaderProps) => {
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-start">
       <CalculatorTheme isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-2">
         <Toggle
           pressed={isScientific}
           onPressedChange={setIsScientific}
@@ -40,7 +40,7 @@ const CalculatorHeader = ({
           {isScientific ? <Brain className="h-5 w-5" /> : <Calculator className="h-5 w-5" />}
           {isScientific ? 'Scientific' : 'Advanced'}
         </Toggle>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
           <Button
             variant="outline"
             className={cn(
