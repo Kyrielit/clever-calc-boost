@@ -95,6 +95,12 @@ const Index = () => {
       "p-8"
     )}>
       <div className="max-w-3xl mx-auto space-y-8">
+        <CalculatorTitle
+          isDarkMode={isDarkMode}
+          isScientific={isScientific}
+          activeGame={activeGame}
+        />
+
         <CalculatorHeader
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
@@ -102,12 +108,6 @@ const Index = () => {
           setIsScientific={setIsScientific}
           activeGame={activeGame}
           setActiveGame={setActiveGame}
-        />
-
-        <CalculatorTitle
-          isDarkMode={isDarkMode}
-          isScientific={isScientific}
-          activeGame={activeGame}
         />
 
         {activeGame === 'none' ? (
@@ -138,10 +138,10 @@ const Index = () => {
               <Button onClick={() => handleMemoryOperation('M-')} variant="outline" size="sm">M-</Button>
             </div>
 
-            {isScientific ? (
+            <BasicCalculator isDarkMode={isDarkMode} setInput={setInput} />
+
+            {isScientific && (
               <ScientificButtons isDarkMode={isDarkMode} setInput={setInput} />
-            ) : (
-              <BasicCalculator isDarkMode={isDarkMode} setInput={setInput} />
             )}
 
             <CalculatorHistory isDarkMode={isDarkMode} history={history} />
