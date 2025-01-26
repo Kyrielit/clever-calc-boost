@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 interface CalculatorTitleProps {
   isDarkMode: boolean;
   isScientific: boolean;
-  activeGame: 'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence';
+  activeGame: 'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence' | 'math-puzzle' | 'pattern-match' | 'quick-calc' | 'number-series' | 'math-grid';
 }
 
 const CalculatorTitle = ({ isDarkMode, isScientific, activeGame }: CalculatorTitleProps) => {
@@ -26,7 +26,17 @@ const CalculatorTitle = ({ isDarkMode, isScientific, activeGame }: CalculatorTit
           ? 'Speed Math'
           : activeGame === 'memory-grid'
           ? 'Memory Grid'
-          : 'Math Sequence'}
+          : activeGame === 'math-sequence'
+          ? 'Math Sequence'
+          : activeGame === 'math-puzzle'
+          ? 'Math Puzzle'
+          : activeGame === 'pattern-match'
+          ? 'Pattern Match'
+          : activeGame === 'quick-calc'
+          ? 'Quick Calc'
+          : activeGame === 'number-series'
+          ? 'Number Series'
+          : 'Math Grid'}
       </h1>
       <p className={cn(
         "text-lg animate-in fade-in-50 duration-1000 delay-200",
@@ -42,7 +52,17 @@ const CalculatorTitle = ({ isDarkMode, isScientific, activeGame }: CalculatorTit
           ? "Race against time to solve math problems!"
           : activeGame === 'memory-grid'
           ? "Remember and recreate patterns on the grid!"
-          : "Predict the next number in the sequence!"}
+          : activeGame === 'math-sequence'
+          ? "Predict the next number in the sequence!"
+          : activeGame === 'math-puzzle'
+          ? "Solve mathematical puzzles and improve your skills!"
+          : activeGame === 'pattern-match'
+          ? "Match the pattern sequence to advance!"
+          : activeGame === 'quick-calc'
+          ? "Solve calculations quickly before time runs out!"
+          : activeGame === 'number-series'
+          ? "Find the next number in the series!"
+          : "Select numbers that sum up to the target!"}
       </p>
     </div>
   );

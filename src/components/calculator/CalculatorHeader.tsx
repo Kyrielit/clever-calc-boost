@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calculator, Brain, Grid, Puzzle } from "lucide-react";
+import { Calculator, Brain, Grid, Puzzle, Timer } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
 import { Button } from "@/components/ui/button";
 import { cn } from '@/lib/utils';
@@ -16,8 +16,8 @@ interface CalculatorHeaderProps {
   setIsDarkMode: (value: boolean) => void;
   isScientific: boolean;
   setIsScientific: (value: boolean) => void;
-  activeGame: 'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence';
-  setActiveGame: (game: 'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence') => void;
+  activeGame: 'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence' | 'math-puzzle' | 'pattern-match' | 'quick-calc' | 'number-series' | 'math-grid';
+  setActiveGame: (game: 'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence' | 'math-puzzle' | 'pattern-match' | 'quick-calc' | 'number-series' | 'math-grid') => void;
 }
 
 const CalculatorHeader = ({
@@ -85,6 +85,26 @@ const CalculatorHeader = ({
               <DropdownMenuItem className="h-12 text-lg cursor-pointer" onClick={() => setActiveGame('math-sequence')}>
                 <Puzzle className="h-5 w-5 mr-2" />
                 Math Sequence
+              </DropdownMenuItem>
+              <DropdownMenuItem className="h-12 text-lg cursor-pointer" onClick={() => setActiveGame('math-puzzle')}>
+                <Puzzle className="h-5 w-5 mr-2" />
+                Math Puzzle
+              </DropdownMenuItem>
+              <DropdownMenuItem className="h-12 text-lg cursor-pointer" onClick={() => setActiveGame('pattern-match')}>
+                <Brain className="h-5 w-5 mr-2" />
+                Pattern Match
+              </DropdownMenuItem>
+              <DropdownMenuItem className="h-12 text-lg cursor-pointer" onClick={() => setActiveGame('quick-calc')}>
+                <Timer className="h-5 w-5 mr-2" />
+                Quick Calc
+              </DropdownMenuItem>
+              <DropdownMenuItem className="h-12 text-lg cursor-pointer" onClick={() => setActiveGame('number-series')}>
+                <Brain className="h-5 w-5 mr-2" />
+                Number Series
+              </DropdownMenuItem>
+              <DropdownMenuItem className="h-12 text-lg cursor-pointer" onClick={() => setActiveGame('math-grid')}>
+                <Grid className="h-5 w-5 mr-2" />
+                Math Grid
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -9,6 +9,11 @@ import NumberMemory from '@/components/games/NumberMemory';
 import SpeedMath from '@/components/games/SpeedMath';
 import MemoryGrid from '@/components/games/MemoryGrid';
 import MathSequence from '@/components/games/MathSequence';
+import MathPuzzle from '@/components/games/MathPuzzle';
+import PatternMatch from '@/components/games/PatternMatch';
+import QuickCalc from '@/components/games/QuickCalc';
+import NumberSeries from '@/components/games/NumberSeries';
+import MathGrid from '@/components/games/MathGrid';
 import CalculatorHeader from '@/components/calculator/CalculatorHeader';
 import CalculatorTitle from '@/components/calculator/CalculatorTitle';
 import ScientificButtons from '@/components/calculator/ScientificButtons';
@@ -22,7 +27,7 @@ const Index = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isScientific, setIsScientific] = useState(false);
   const { toast } = useToast();
-  const [activeGame, setActiveGame] = useState<'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence'>('none');
+  const [activeGame, setActiveGame] = useState<'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence' | 'math-puzzle' | 'pattern-match' | 'quick-calc' | 'number-series' | 'math-grid'>('none');
 
   useEffect(() => {
     if (isDarkMode) {
@@ -154,8 +159,18 @@ const Index = () => {
           <SpeedMath />
         ) : activeGame === 'memory-grid' ? (
           <MemoryGrid />
-        ) : (
+        ) : activeGame === 'math-sequence' ? (
           <MathSequence />
+        ) : activeGame === 'math-puzzle' ? (
+          <MathPuzzle />
+        ) : activeGame === 'pattern-match' ? (
+          <PatternMatch />
+        ) : activeGame === 'quick-calc' ? (
+          <QuickCalc />
+        ) : activeGame === 'number-series' ? (
+          <NumberSeries />
+        ) : (
+          <MathGrid />
         )}
       </div>
     </div>
