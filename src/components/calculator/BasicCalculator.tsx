@@ -19,7 +19,8 @@ const BasicCalculator = ({ isDarkMode, setInput }: BasicCalculatorProps) => {
     } else if (value === '=') {
       // Handle calculation
     } else {
-      setInput((prev: string) => prev + value);
+      const currentInput = document.querySelector('input')?.value || '';
+      setInput(currentInput + value);
     }
   };
 
