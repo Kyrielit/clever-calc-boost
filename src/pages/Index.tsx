@@ -97,9 +97,9 @@ const Index = () => {
       isDarkMode 
         ? "bg-gradient-to-br from-gray-900 via-purple-900 to-gray-800" 
         : "bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50",
-      "p-8"
+      "p-4 sm:p-8"
     )}>
-      <div className="max-w-3xl mx-auto space-y-8">
+      <div className="max-w-3xl mx-auto space-y-6">
         <CalculatorTitle
           isDarkMode={isDarkMode}
           isScientific={isScientific}
