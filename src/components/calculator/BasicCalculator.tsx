@@ -10,8 +10,14 @@ interface BasicCalculatorProps {
 }
 
 const BasicCalculator = ({ isDarkMode, setInput }: BasicCalculatorProps) => {
-  const numbers = ['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.'];
-  const operators = ['+', '-', '×', '÷', '=', 'C'];
+  // Arrange numbers in a standard calculator layout
+  const numberRows = [
+    ['7', '8', '9'],
+    ['4', '5', '6'],
+    ['1', '2', '3'],
+    ['0', '.']
+  ];
+  const operators = ['÷', '×', '-', '+', '=', 'C'];
   const alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
 
   const handleButtonClick = (value: string) => {
@@ -20,10 +26,7 @@ const BasicCalculator = ({ isDarkMode, setInput }: BasicCalculatorProps) => {
     } else if (value === '=') {
       const currentInput = document.querySelector('input')?.value || '';
       try {
-        const processedInput = currentInput
-          .replace(/×/g, '*')
-          .replace(/÷/g, '/');
-        const result = calculateResult(processedInput);
+        const result = calculateResult(currentInput);
         setInput(result.toString());
       } catch (error) {
         setInput('Error');
@@ -88,35 +91,47 @@ const BasicCalculator = ({ isDarkMode, setInput }: BasicCalculatorProps) => {
       </div>
 
       <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
-        {numbers.map((num) => (
-          <Button
-            key={num}
-            onClick={() => handleButtonClick(num)}
-            variant={isDarkMode ? "outline" : "secondary"}
-            className={cn(
-              "h-10 sm:h-12 text-base sm:text-lg font-medium",
-              isDarkMode ? "border-gray-600 hover:bg-gray-700" : "hover:bg-gray-100"
-            )}
-          >
-            {num}
-          </Button>
-        ))}
-        
-        {operators.map((op) => (
-          <Button
-            key={op}
-            onClick={() => handleButtonClick(op)}
-            variant="default"
-            className={cn(
-              "h-10 sm:h-12 text-base sm:text-lg font-medium",
-              isDarkMode ? "bg-indigo-600 hover:bg-indigo-700" : "bg-indigo-500 hover:bg-indigo-600"
-            )}
-          >
-            {op}
-          </Button>
-        ))}
+        {/* Numbers grid */}
+        <div className="col-span-3 grid grid-cols-3 gap-1.5 sm:gap-2">
+          {numberRows.map((row, rowIndex) => (
+            <React.Fragment key={rowIndex}>
+              {row.map((num) => (
+                <Button
+                  key={num}
+                  onClick={() => handleButtonClick(num)}
+                  variant={isDarkMode ? "outline" : "secondary"}
+                  className={cn(
+                    "h-10 sm:h-12 text-base sm:text-lg font-medium",
+                    isDarkMode ? "border-gray-600 hover:bg-gray-700" : "hover:bg-gray-100",
+                    num === '0' && "col-span-2"
+                  )}
+                >
+                  {num}
+                </Button>
+              ))}
+            </React.Fragment>
+          ))}
+        </div>
+
+        {/* Operators column */}
+        <div className="grid grid-rows-6 gap-1.5 sm:gap-2">
+          {operators.map((op) => (
+            <Button
+              key={op}
+              onClick={() => handleButtonClick(op)}
+              variant="default"
+              className={cn(
+                "h-10 sm:h-12 text-base sm:text-lg font-medium",
+                isDarkMode ? "bg-indigo-600 hover:bg-indigo-700" : "bg-indigo-500 hover:bg-indigo-600"
+              )}
+            >
+              {op}
+            </Button>
+          ))}
+        </div>
       </div>
 
+      {/* Alphabet buttons */}
       <div className="grid grid-cols-6 gap-1.5 sm:gap-2">
         {alphabet.map((letter) => (
           <Button
