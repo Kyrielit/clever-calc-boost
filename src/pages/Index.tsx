@@ -124,8 +124,7 @@ const Index = () => {
           )}>
             <Input
               value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
+              readOnly
               placeholder={isScientific ? "Enter scientific calculation (e.g., 'sin(30)', 'log(100)')" : "Enter calculation"}
               className={cn(
                 "text-lg h-12",
