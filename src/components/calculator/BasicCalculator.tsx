@@ -2,6 +2,7 @@ import React from 'react';
 import { Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from '@/lib/utils';
+import { calculateResult } from '@/utils/calculator';
 
 interface BasicCalculatorProps {
   isDarkMode: boolean;
@@ -17,7 +18,17 @@ const BasicCalculator = ({ isDarkMode, setInput }: BasicCalculatorProps) => {
     if (value === 'C') {
       setInput('');
     } else if (value === '=') {
-      // Handle calculation
+      const currentInput = document.querySelector('input')?.value || '';
+      try {
+        // Replace × and ÷ with * and / for JavaScript evaluation
+        const processedInput = currentInput
+          .replace(/×/g, '*')
+          .replace(/÷/g, '/');
+        const result = calculateResult(processedInput);
+        setInput(result.toString());
+      } catch (error) {
+        setInput('Error');
+      }
     } else {
       const currentInput = document.querySelector('input')?.value || '';
       setInput(currentInput + value);
