@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Timer } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { calculateMathExpression } from "@/utils/calculator";
 
 const QuickCalc = () => {
   const [problem, setProblem] = useState('');
@@ -44,22 +45,30 @@ const QuickCalc = () => {
   };
 
   const checkAnswer = () => {
-    const correctAnswer = eval(problem);
-    if (Number(answer) === correctAnswer) {
-      setScore(prev => prev + 1);
+    try {
+      const correctAnswer = calculateMathExpression(problem);
+      if (Number(answer) === correctAnswer) {
+        setScore(prev => prev + 1);
+        toast({
+          title: "Correct! 🎉",
+          description: `Score: ${score + 1}`,
+        });
+        generateProblem();
+        setAnswer('');
+      } else {
+        toast({
+          title: "Wrong!",
+          description: `The correct answer was ${correctAnswer}`,
+          variant: "destructive",
+        });
+        setAnswer('');
+      }
+    } catch (error) {
       toast({
-        title: "Correct! 🎉",
-        description: `Score: ${score + 1}`,
-      });
-      generateProblem();
-      setAnswer('');
-    } else {
-      toast({
-        title: "Wrong!",
-        description: `The correct answer was ${correctAnswer}`,
+        title: "Error",
+        description: "Something went wrong with the calculation",
         variant: "destructive",
       });
-      setAnswer('');
     }
   };
 

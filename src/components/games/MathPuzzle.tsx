@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { Puzzle } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { calculateMathExpression } from "@/utils/calculator";
 
 const MathPuzzle = () => {
   const [puzzle, setPuzzle] = useState<string>('');
@@ -26,19 +27,27 @@ const MathPuzzle = () => {
   };
 
   const checkAnswer = () => {
-    const correctAnswer = eval(puzzle);
-    if (Number(answer) === correctAnswer) {
-      setScore(prev => prev + 1);
+    try {
+      const correctAnswer = calculateMathExpression(puzzle);
+      if (Number(answer) === correctAnswer) {
+        setScore(prev => prev + 1);
+        toast({
+          title: "Correct! 🎉",
+          description: `Your score: ${score + 1}`,
+        });
+        generatePuzzle();
+        setAnswer('');
+      } else {
+        toast({
+          title: "Wrong answer",
+          description: `The correct answer was ${correctAnswer}`,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
-        title: "Correct! 🎉",
-        description: `Your score: ${score + 1}`,
-      });
-      generatePuzzle();
-      setAnswer('');
-    } else {
-      toast({
-        title: "Wrong answer",
-        description: `The correct answer was ${correctAnswer}`,
+        title: "Error",
+        description: "Something went wrong with the calculation",
         variant: "destructive",
       });
     }
