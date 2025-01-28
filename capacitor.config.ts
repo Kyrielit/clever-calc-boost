@@ -5,7 +5,8 @@ const config: CapacitorConfig = {
   appName: 'Kyrie Calc Pro',
   webDir: 'dist',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    iosScheme: 'https'
   },
   plugins: {
     PWA: {
