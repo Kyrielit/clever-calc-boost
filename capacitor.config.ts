@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.calculator.app',
-  appName: 'Productivity Calculator',
+  appName: 'Kyrie Calc Pro',
   webDir: 'dist',
   server: {
     androidScheme: 'https'

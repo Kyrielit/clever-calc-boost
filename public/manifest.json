@@ -1,6 +1,6 @@
 {
-  "name": "Advanced Calculator with Math Games",
-  "short_name": "Calculator",
+  "name": "Kyrie Calc Pro (KCP)",
+  "short_name": "Kyrie Calc Pro",
   "description": "A powerful calculator and educational math games suite",
   "start_url": "/",
   "display": "standalone",
