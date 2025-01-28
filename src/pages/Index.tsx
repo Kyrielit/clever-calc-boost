@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -20,7 +20,23 @@ import ScientificButtons from '@/components/calculator/ScientificButtons';
 import BasicCalculator from '@/components/calculator/BasicCalculator';
 import CalculatorHistory from '@/components/calculator/CalculatorHistory';
 
+const SplashScreen = () => (
+  <div className="fixed inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-center z-50">
+    <div className="text-center">
+      <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 animate-fade-in">
+        Kyrie Calc Pro
+      </h1>
+      <div className="relative w-24 h-24 mx-auto">
+        <div className="absolute inset-0 border-8 border-white border-t-transparent rounded-full animate-spin"></div>
+        <div className="absolute inset-2 border-6 border-indigo-300 border-b-transparent rounded-full animate-spin-slow"></div>
+      </div>
+      <p className="text-white mt-4 animate-pulse">Loading your experience...</p>
+    </div>
+  </div>
+);
+
 const Index = () => {
+  const [showSplash, setShowSplash] = useState(true);
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [memory, setMemory] = useState<number>(0);
@@ -28,6 +44,14 @@ const Index = () => {
   const [isScientific, setIsScientific] = useState(false);
   const { toast } = useToast();
   const [activeGame, setActiveGame] = useState<'none' | 'math-challenge' | 'number-memory' | 'speed-math' | 'memory-grid' | 'math-sequence' | 'math-puzzle' | 'pattern-match' | 'quick-calc' | 'number-series' | 'math-grid'>('none');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2500); // Show splash screen for 2.5 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -91,9 +115,13 @@ const Index = () => {
     }
   };
 
+  if (showSplash) {
+    return <SplashScreen />;
+  }
+
   return (
     <div className={cn(
-      "min-h-screen transition-colors duration-300",
+      "min-h-screen transition-colors duration-300 animate-fade-in",
       isDarkMode 
         ? "bg-gradient-to-br from-gray-900 via-purple-900 to-gray-800" 
         : "bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50",
